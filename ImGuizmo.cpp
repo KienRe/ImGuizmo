@@ -741,8 +741,15 @@ namespace ImGuizmo
 
       const ImU32 flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
       ImGui::SetNextWindowSize(io.DisplaySize);
-      ImGui::SetNextWindowPos(ImVec2(0, 0));
-      
+
+      //RK - I changed this because it didnt work with docking branch of imgui
+      //https://github.com/CedricGuillemet/ImGuizmo/issues/78
+#ifdef IMGUI_HAS_VIEWPORT
+      ImGui::SetNextWindowPos(ImGui::GetMainViewport()->Pos);
+#else
+      ImGui::SetNextWindowPos(ImVec2(0, 0))
+#endif
+
       ImGui::PushStyleColor(ImGuiCol_WindowBg, 0);
       ImGui::PushStyleColor(ImGuiCol_Border, 0);
       ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
